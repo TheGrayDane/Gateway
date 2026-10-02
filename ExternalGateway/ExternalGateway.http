@@ -1,0 +1,6 @@
+@ExternalGateway_HostAddress = http://localhost:5037
+
+GET {{ExternalGateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
