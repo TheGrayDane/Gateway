@@ -1,0 +1,35 @@
+﻿services:
+  postgres:
+    image: postgres:latest
+    container_name: database-postgres
+    environment:
+      POSTGRES_DB: gateway
+      POSTGRES_USER: TheGrayDane
+      POSTGRES_PASSWORD: '!2HoppeBolde'
+    ports:
+      - "5432:5432"
+    networks:
+      - BackEnd
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  Gateway.Service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - BackEnd
+    depends_on:
+      postgres:
+        condition: service_started
+volumes:
+  postgres_data: {}
+  
+networks:
+  BackEnd:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 196.18.0.0/16
+          gateway: 196.18.0.1
